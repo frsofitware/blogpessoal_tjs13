@@ -1,5 +1,5 @@
 import { Transform, TransformFnParams } from "class-transformer";
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, Length } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({name: "tb_postagens"}) // CREATE TABLE tb_postagens
@@ -14,7 +14,8 @@ export class Postagem{
     titulo: string;
 
     @Transform(({ value }: TransformFnParams) => value?.trim()) // RETIRA O ESPAÇO EM BRACO DO COMEÇO E DO FINAL
-    @IsNotEmpty() // FORÇA DIGITAÇÃO, NÃO ACEITA O CAMPO EM BRANCO
+    @IsNotEmpty({message: "O texto é obrigatório"}) // FORÇA DIGITAÇÃO, NÃO ACEITA O CAMPO EM BRANCO
+    @Length(10, 1000, {message: "O texto deve ter entre 10 e 1000 caracteres"})
     @Column({length: 1000, nullable: false}) // VARCHAR(1000) NOT NULL
     texto: string;
 
