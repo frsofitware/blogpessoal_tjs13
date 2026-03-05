@@ -8,19 +8,25 @@ export class PostagemService{
 
     constructor(
         @InjectRepository(Postagem)
-        private postagemRepository : Repository <Postagem>,
-    ){}
+        private postagemRepository : Repository <Postagem>,){}
 
     async findAll(): Promise<Postagem[]> {
         // SELECT * FROM tb_postagens
-        return this.postagemRepository.find();
+        return this.postagemRepository.find({
+            relations: {
+                tema: true
+            }
+        });
     }
 
     async findById(id:number): Promise<Postagem>{
         // SELECT * FROM tb_postagens WHERE id = ?
         const postagem = await this.postagemRepository.findOne({
             where: {
-                id
+                id,
+            },
+            relations: {
+                tema: true
             }
         })
 
@@ -35,6 +41,9 @@ export class PostagemService{
         return this.postagemRepository.find({
             where:{
                 titulo: ILike(`%${titulo}%`)
+            },
+            relations: {
+                tema: true
             }
         })
     }

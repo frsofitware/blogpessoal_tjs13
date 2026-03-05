@@ -7,8 +7,7 @@ import { Postagem } from "../entities/postagem.entity";
 export class PostagemController{
 
     constructor(
-        private readonly postagemService: PostagemService
-    ){}
+        private readonly postagemService: PostagemService){}
     
     @Get()
     @HttpCode(HttpStatus.OK)
